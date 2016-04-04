@@ -1,6 +1,6 @@
-package com.epam.hamori.repository;
+package com.hamori.repository;
 
-import com.epam.hamori.model.AccountType;
+import com.hamori.model.AccountType;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 

@@ -1,4 +1,4 @@
-package com.epam.hamori.model;
+package com.hamori.model;
 
 import java.io.Serializable;
 

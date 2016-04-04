@@ -1,10 +1,8 @@
-package com.epam.hamori.repository;
+package com.hamori.repository;
 
-import com.epam.hamori.model.Account;
-import com.epam.hamori.model.Customer;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.hamori.model.Account;
+import com.hamori.model.Customer;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,5 +24,14 @@ public interface AccountMapper {
     Long createAccount(@Param("account") Account account);
 
 
+    @Select("SELECT * FROM ACCOUNT")
+    @Results(value = {
+            @Result(property="balance", column="balance"),
+            @Result(property="customer", javaType=List.class, column="customerId",
+                    one=@One(select="findCustomer"))
+    })
+    List<Account> findAll();
 
+    @Select("SELECT * FROM CUSTOMER WHERE id=#{account.customerId}")
+    Customer findCustomer(Account account);
 }

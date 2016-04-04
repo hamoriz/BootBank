@@ -1,9 +1,9 @@
-package com.epam.hamori.config;
+package com.hamori.config;
 
-import com.epam.hamori.model.Account;
-import com.epam.hamori.model.Customer;
-import com.epam.hamori.repository.AccountMapper;
-import com.epam.hamori.repository.CustomerMapper;
+import com.hamori.model.Account;
+import com.hamori.model.Customer;
+import com.hamori.repository.AccountMapper;
+import com.hamori.repository.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

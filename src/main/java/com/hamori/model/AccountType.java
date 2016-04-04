@@ -1,4 +1,4 @@
-package com.epam.hamori.model;
+package com.hamori.model;
 
 /**
  * Author: Zoltan_Hamori
