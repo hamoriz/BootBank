@@ -25,6 +25,7 @@ public interface AccountMapper {
 
 
     @Insert("INSERT INTO ACCOUNT (balance, customer_id, account_type_id) VALUES (#{account.balance}, #{account.customer.id}, #{account.type.id})")
+    @Options(keyProperty = "account.id", useGeneratedKeys = true, keyColumn = "id")
     Long createAccount(@Param("account") Account account);
 
 

@@ -3,6 +3,7 @@ package com.hamori.controller;
 import com.hamori.model.Customer;
 import com.hamori.repository.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerMapper customerMapper;
+
 
 
     @RequestMapping(value = "customers", method = RequestMethod.GET)

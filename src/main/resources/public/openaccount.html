@@ -1,18 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello WebSocket</title>
-    <script src="sockjs-0.3.4.js"></script>
-    <script src="stomp.js"></script>
+    <title>Open account</title>
+    <script src="stomp/sockjs-0.3.4.js"></script>
+    <script src="stomp/stomp.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script type="text/javascript">
 
-        $(document).ready(function()
-        {
-            $.getJSON("/api/accountTypes/",function(json)
-            {
-                $.each(json,function(key,value)
-                {
+        $(document).ready(function () {
+            $.getJSON("/api/accountTypes", function (json) {
+                $.each(json, function (key, value) {
                     var option = $('<option />').val(value.id).text(value.name);
                     $("#accountType").append(option);
                 });
@@ -20,26 +17,19 @@
             });
         });
 
-
-
         var stompClient = null;
 
         function setConnected(connected) {
             document.getElementById('connect').disabled = connected;
             document.getElementById('disconnect').disabled = !connected;
-            document.getElementById('conversationDiv').style.visibility = connected ? 'visible' : 'hidden';
-            document.getElementById('response').innerHTML = '';
         }
 
         function connect() {
-            var socket = new SockJS('/hello');
+            var socket = new SockJS('/accounts');
             stompClient = Stomp.over(socket);
-            stompClient.connect({}, function(frame) {
+            stompClient.connect({}, function (frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/greetings', function(greeting){
-                    showGreeting(JSON.parse(greeting.body).content);
-                });
             });
         }
 
@@ -53,21 +43,26 @@
 
         function sendAccount() {
             var name = document.getElementById('name').value;
-            var name = document.getElementById('name').value;
-            stompClient.send("/app/hello", {}, JSON.stringify({ 'name': name }));
+            var balance = document.getElementById('balance').value;
+            var accountType = document.getElementById('accountType');
+
+            stompClient.send("/app/accounts", {}, JSON.stringify({
+                'balance': balance,
+                'customer': {'name': name},
+                'type': {
+                    'id': accountType.options[accountType.selectedIndex].value,
+                    'name': accountType.options[accountType.selectedIndex].id
+                }
+            }));
+
         }
 
-        function showGreeting(message) {
-            var response = document.getElementById('response');
-            var p = document.createElement('p');
-            p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(message));
-            response.appendChild(p);
-        }
+
     </script>
 </head>
 <body onload="disconnect()">
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being enabled. Please enable
+<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+    enabled. Please enable
     Javascript and reload this page!</h2></noscript>
 <div>
     <div>
@@ -75,10 +70,17 @@
         <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
     </div>
     <div id="conversationDiv">
-        <label>What is your name?</label><input type="text" id="name" />
-        <label>What is account balance?</label><input type="text" id="accountBalance" />
-        <label>What is account type?</label>
-        <select id= "accountType"> </select>
+        <table>
+            <tr>
+                <td><label>What is your name?</label><input type="text" id="name"/></td>
+            </tr>
+            <tr>
+                <td><label>What is open balance?</label><input type="text" id="balance"/></td>
+            </tr>
+            <tr>
+                <td><label>What is account type?</label><select id="accountType"></select></td>
+            </tr>
+        </table>
         <button id="sendAccount" onclick="sendAccount();">Send</button>
         <p id="response"></p>
     </div>
