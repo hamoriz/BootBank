@@ -1,6 +1,6 @@
 function connect() {
     var socket = new SockJS('/accountopen');
-    stompClient = Stomp.over(socket);
+    var stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/accountopen', function (account) {
@@ -11,10 +11,10 @@ function connect() {
 
 
 function addCircle(account) {
-    
+
     d3.select("svg").append("circle")
         .attr("r", function () {
-            return JSON.parse(account.body).balance/5000;
+            return JSON.parse(account.body).balance / 5000;
         })
         .attr("cx", function () {
             return (Math.random() * 500) + 100
@@ -24,7 +24,7 @@ function addCircle(account) {
         })
         .attr("stroke", "rgb(255,0,0)")
         .attr("stroke-width", 2)
-        .attr("fill", "red") ;
+        .attr("fill", "red");
 
 }
 
@@ -36,10 +36,9 @@ $(document).ready(function () {
         url: "/api/accounts"
     }).then(function (data) {
 
-        var svgContainer = d3.select("body").append("svg").attr("height", 1000).attr("width", 1000);
+        d3.select("body").append("svg").attr("height", 1000).attr("width", 1000);
 
-
-        var circles = d3.select("svg").selectAll("circle")
+        d3.select("svg").selectAll("circle")
             .data(data)
             .enter()
             .append("circle")
@@ -60,7 +59,7 @@ $(document).ready(function () {
             });
 
 
-        var texts = d3.select("svg").selectAll("text")
+        d3.select("svg").selectAll("text")
             .data(data)
             .enter()
             .append("text")

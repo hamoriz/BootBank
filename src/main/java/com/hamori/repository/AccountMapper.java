@@ -5,8 +5,6 @@ import com.hamori.model.AccountType;
 import com.hamori.model.Customer;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,9 +29,9 @@ public interface AccountMapper {
 
     @Select("SELECT * FROM ACCOUNT")
     @Results(value = {
-            @Result(property="balance", column="balance"),
-            @Result(property="customer", column="customer_id",javaType = Customer.class,one=@One(select="com.hamori.repository.CustomerMapper.findById")),
-            @Result(property="type",column="account_type_id",javaType = AccountType.class, one=@One(select="com.hamori.repository.AccountTypeMapper.findById"))
+            @Result(property = "balance", column = "balance"),
+            @Result(property = "customer", column = "customer_id", javaType = Customer.class, one = @One(select = "com.hamori.repository.CustomerMapper.findById")),
+            @Result(property = "type", column = "account_type_id", javaType = AccountType.class, one = @One(select = "com.hamori.repository.AccountTypeMapper.findById"))
     })
     List<Account> findAll();
 

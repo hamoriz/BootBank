@@ -21,7 +21,7 @@
             var balance = document.getElementById('balance').value;
             var accountType = document.getElementById('accountType');
 
-            sendData( JSON.stringify({
+            sendData(JSON.stringify({
                 'balance': balance,
                 'customer': {'name': name},
                 'type': {
@@ -41,13 +41,8 @@
                 contentType: "application/json; charset=utf-8",
                 crossDomain: true,
                 dataType: "json",
-                success: function (data, status, jqXHR) {
-                    console.log("Message sent");// write success in " "
-                },
                 error: function (jqXHR, status) {
-                    // error handler
                     console.log(jqXHR);
-
                 }
             });
         }
@@ -73,7 +68,6 @@
             </tr>
         </table>
         <button id="sendAccount" onclick="sendAccount();">Send</button>
-        <p id="response"></p>
     </div>
 </div>
 </body>

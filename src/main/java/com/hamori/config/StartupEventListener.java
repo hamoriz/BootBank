@@ -12,16 +12,11 @@ import org.springframework.stereotype.Component;
 public class StartupEventListener implements ApplicationListener<ApplicationStartedEvent> {
 
 
-    public StartupEventListener() {
-        System.out.println("ghello");
-    }
-
-
     @Autowired
     DatabaseSetup databaseSetup;
 
     @Override
     public void onApplicationEvent(ApplicationStartedEvent applicationStartedEvent) {
-       databaseSetup.setup();
+        databaseSetup.setup();
     }
 }
