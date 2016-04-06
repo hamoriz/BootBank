@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ public interface CustomerMapper {
 
     @Select("SELECT * FROM CUSTOMER")
     List<Customer> findAll();
+
 
     @Insert("INSERT INTO CUSTOMER (name) values(#{customer.name})")
     @Options(keyProperty = "customer.id", useGeneratedKeys = true, keyColumn = "id")

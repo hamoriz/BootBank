@@ -36,11 +36,22 @@ public class Account implements Serializable {
         this.customer = customer;
     }
 
+
     public AccountType getType() {
         return type;
     }
 
     public void setType(AccountType type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", balance=" + balance +
+                ", customer=" + customer +
+                ", type=" + type +
+                '}';
     }
 }

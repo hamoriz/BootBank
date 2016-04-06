@@ -1,9 +1,12 @@
 package com.hamori.repository;
 
 import com.hamori.model.Account;
+import com.hamori.model.AccountType;
 import com.hamori.model.Customer;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,20 +21,20 @@ public interface AccountMapper {
 
 
     @Select("SELECT * FROM ACCOUNT WHERE customer_id = #{customer.id}")
-    List<Account> findByCustomer(@Param("customer") Customer id);
+    List<Account> findByCustomer(@Param("customer") Customer customer);
 
-    @Insert("INSERT INTO ACCOUNT (balance, customer_id) VALUES (#{account.balance}, #{account.customer.id})")
+
+    @Insert("INSERT INTO ACCOUNT (balance, customer_id, account_type_id) VALUES (#{account.balance}, #{account.customer.id}, #{account.type.id})")
     Long createAccount(@Param("account") Account account);
 
 
     @Select("SELECT * FROM ACCOUNT")
     @Results(value = {
             @Result(property="balance", column="balance"),
-            @Result(property="customer", javaType=List.class, column="customerId",
-                    one=@One(select="findCustomer"))
+            @Result(property="customer", column="customer_id",javaType = Customer.class,one=@One(select="com.hamori.repository.CustomerMapper.findById")),
+            @Result(property="type",column="account_type_id",javaType = AccountType.class, one=@One(select="com.hamori.repository.AccountTypeMapper.findById"))
     })
     List<Account> findAll();
 
-    @Select("SELECT * FROM CUSTOMER WHERE id=#{account.customerId}")
-    Customer findCustomer(Account account);
+
 }

@@ -3,22 +3,32 @@ package com.hamori.model;
 /**
  * Author: Zoltan_Hamori
  */
-public enum AccountType {
+public class AccountType {
 
-    CURRENT("Current"),
-    SAVING("Saving"),
-    CASH_ISA("CashIsa");
-
+    private Long id;
     private String name;
 
-    AccountType(String name) {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 
     @Override
     public String toString() {
         return "AccountType{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

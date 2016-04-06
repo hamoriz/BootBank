@@ -29,7 +29,7 @@ public class CustomerController {
         return customerMapper.findById(id);
     }
 
-    @RequestMapping(value = "customers/{name}", method = RequestMethod.GET)
+    @RequestMapping(value = "customers/name/{name}", method = RequestMethod.GET)
     public Customer get(@PathVariable String name) {
         return customerMapper.findByName(name);
     }

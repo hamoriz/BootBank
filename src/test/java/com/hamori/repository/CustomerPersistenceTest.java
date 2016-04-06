@@ -1,5 +1,6 @@
-package com.hamori;
+package com.hamori.repository;
 
+import com.hamori.DemoApplication;
 import com.hamori.model.Customer;
 import com.hamori.repository.CustomerMapper;
 import org.junit.Test;
@@ -27,7 +28,7 @@ public class CustomerPersistenceTest {
 
 
     @Test
-    public void testJpaFind() {
+    public void customerFindByName() {
         final String customerName = "Oriza Triznyak";
         customerMapper.createCustomer(aCustomer(customerName));
 
@@ -35,6 +36,19 @@ public class CustomerPersistenceTest {
 
         assertNotNull(newCustomer);
         assertThat(newCustomer.getName(), is(customerName));
+    }
+
+    @Test
+    public void customerFindById() {
+
+
+        Customer customer=aCustomer("Robert Gida");
+        customerMapper.createCustomer(customer);
+
+        Customer newCustomer = customerMapper.findById(customer.getId());
+
+        assertNotNull(newCustomer);
+        assertThat(newCustomer.getName(), is("Robert Gida"));
     }
 
     private Customer aCustomer(String name) {
