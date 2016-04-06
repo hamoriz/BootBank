@@ -1,9 +1,9 @@
 function connect() {
-    var socket = new SockJS('/accounts');
+    var socket = new SockJS('/accountopen');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/accounts', function (account) {
+        stompClient.subscribe('/topic/accountopen', function (account) {
             addCircle(account);
         });
     });

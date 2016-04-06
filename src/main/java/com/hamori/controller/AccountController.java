@@ -1,14 +1,11 @@
 package com.hamori.controller;
 
 import com.hamori.model.Account;
-import com.hamori.model.Customer;
 import com.hamori.repository.AccountMapper;
 import com.hamori.repository.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -40,10 +37,10 @@ public class AccountController {
     }
 
 
-    @MessageMapping("/accounts")
+    @MessageMapping("/accountopen")
     @RequestMapping(value = "accounts", method = RequestMethod.POST)
     public void create(@RequestBody Account account) {
-         template.convertAndSend("/topic/accounts",createAccount(account));
+        template.convertAndSend("/topic/accountopen", createAccount(account));
     }
 
 

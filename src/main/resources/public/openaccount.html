@@ -2,8 +2,6 @@
 <html>
 <head>
     <title>Open account</title>
-    <script src="stomp/sockjs-0.3.4.js"></script>
-    <script src="stomp/stomp.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <script type="text/javascript">
 
@@ -17,36 +15,13 @@
             });
         });
 
-        var stompClient = null;
-
-        function setConnected(connected) {
-            document.getElementById('connect').disabled = connected;
-            document.getElementById('disconnect').disabled = !connected;
-        }
-
-        function connect() {
-            var socket = new SockJS('/accounts');
-            stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
-                setConnected(true);
-                console.log('Connected: ' + frame);
-            });
-        }
-
-        function disconnect() {
-            if (stompClient != null) {
-                stompClient.disconnect();
-            }
-            setConnected(false);
-            console.log("Disconnected");
-        }
 
         function sendAccount() {
             var name = document.getElementById('name').value;
             var balance = document.getElementById('balance').value;
             var accountType = document.getElementById('accountType');
 
-            stompClient.send("/app/accounts", {}, JSON.stringify({
+            sendData( JSON.stringify({
                 'balance': balance,
                 'customer': {'name': name},
                 'type': {
@@ -58,17 +33,33 @@
         }
 
 
+        function sendData(data) {// pass your data in method
+            $.ajax({
+                type: "POST",
+                url: "/api/accounts",
+                data: data,// now data come in this function
+                contentType: "application/json; charset=utf-8",
+                crossDomain: true,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    console.log("Message sent");// write success in " "
+                },
+                error: function (jqXHR, status) {
+                    // error handler
+                    console.log(jqXHR);
+
+                }
+            });
+        }
+
+
     </script>
 </head>
-<body onload="disconnect()">
+<body>
 <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
     enabled. Please enable
     Javascript and reload this page!</h2></noscript>
 <div>
-    <div>
-        <button id="connect" onclick="connect();">Connect</button>
-        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button>
-    </div>
     <div id="conversationDiv">
         <table>
             <tr>
