@@ -19,7 +19,6 @@ import static org.junit.Assert.assertThat;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = DemoApplication.class)
-
 public class CustomerPersistenceTest {
 
 
@@ -40,7 +39,6 @@ public class CustomerPersistenceTest {
 
     @Test
     public void customerFindById() {
-
 
         Customer customer=aCustomer("Robert Gida");
         customerMapper.createCustomer(customer);

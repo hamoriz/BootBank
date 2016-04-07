@@ -15,16 +15,24 @@ import java.util.List;
 public interface AccountMapper {
 
     @Select("SELECT * FROM ACCOUNT WHERE id = #{id}")
+    @Results(value = {
+            @Result(property = "customer", column = "customer_id", javaType = Customer.class, one = @One(select = "com.hamori.repository.CustomerMapper.findById")),
+            @Result(property = "type", column = "account_type_id", javaType = AccountType.class, one = @One(select = "com.hamori.repository.AccountTypeMapper.findById"))
+    })
     Account findById(@Param("id") Long id);
 
 
     @Select("SELECT * FROM ACCOUNT WHERE customer_id = #{customer.id}")
+    @Results(value = {
+            @Result(property = "customer", column = "customer_id", javaType = Customer.class, one = @One(select = "com.hamori.repository.CustomerMapper.findById")),
+            @Result(property = "type", column = "account_type_id", javaType = AccountType.class, one = @One(select = "com.hamori.repository.AccountTypeMapper.findById"))
+    })
     List<Account> findByCustomer(@Param("customer") Customer customer);
 
 
     @Insert("INSERT INTO ACCOUNT (balance, customer_id, account_type_id) VALUES (#{account.balance}, #{account.customer.id}, #{account.type.id})")
     @Options(keyProperty = "account.id", useGeneratedKeys = true, keyColumn = "id")
-    Long createAccount(@Param("account") Account account);
+    void createAccount(@Param("account") Account account);
 
 
     @Select("SELECT * FROM ACCOUNT")
