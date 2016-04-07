@@ -37,7 +37,6 @@ public interface AccountMapper {
 
     @Select("SELECT * FROM ACCOUNT")
     @Results(value = {
-            @Result(property = "balance", column = "balance"),
             @Result(property = "customer", column = "customer_id", javaType = Customer.class, one = @One(select = "com.hamori.repository.CustomerMapper.findById")),
             @Result(property = "type", column = "account_type_id", javaType = AccountType.class, one = @One(select = "com.hamori.repository.AccountTypeMapper.findById"))
     })

@@ -37,23 +37,27 @@ public class AccountRepositoryTest {
     public void accountFindByCustomer() {
 
         final String customerName = "Jimi Hendrix";
-        Account account = createAccount(12345L, customerName, "Saving");
+        final Long balance = 12345L;
+        Account account = createAccount(balance, customerName, "Saving");
 
         List<Account> customerAccounts = accountMapper.findByCustomer(account.getCustomer());
 
         assertThat(customerAccounts.size(), is(1));
         assertThat(customerAccounts.get(0).getCustomer().getName(), is(customerName));
+        assertThat(customerAccounts.get(0).getBalance(), is(balance));
     }
 
     @Test
     public void accountFindById() {
         final String customerName = "Jimi Hendrix";
-        Account account = createAccount(12345L, customerName, "Saving");
+        final Long balance = 12345L;
+        Account account = createAccount(balance, customerName, "Saving");
 
         Account newAccount = accountMapper.findById(account.getId());
 
         assertThat(newAccount.getId(), is(account.getId()));
         assertThat(newAccount.getCustomer().getName(), is(customerName));
+        assertThat(newAccount.getBalance(), is(balance));
     }
 
     private Account createAccount(Long balance, String customerName, String accountType) {
